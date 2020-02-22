@@ -163,7 +163,6 @@ export default {
       this.$emit('sign-in')
     },
     testPassword: throttle(function() {
-      console.log(zxcvbn(this.password))
       let results = zxcvbn(this.password)
       this.scoreValue = results.score
     }, 100),
