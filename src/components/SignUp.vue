@@ -5,23 +5,23 @@
         <v-img src="../assets/beans-in-bowls.jpg" height="100%"></v-img>
       </v-col>
       <v-col cols="9" class="pa-3">
-        <h1 class="title mt-12 mb-8">Sign up</h1>
+        <h1 class="title mt-12 mb-8">{{ $t('auth.sign-up') }}</h1>
         <v-form @submit.prevent="submit">
           <v-text-field
-            v-model="userName"
-            :error-messages="userNameErrors"
+            v-model="username"
+            :error-messages="usernameErrors"
             :counter="50"
-            label="User name"
+            :label="$t('auth.username')"
             required
             outlined
-            @input="$v.userName.$touch()"
-            @blur="$v.userName.$touch()"
+            @input="$v.username.$touch()"
+            @blur="$v.username.$touch()"
           >
           </v-text-field>
           <v-text-field
             v-model="email"
             :error-messages="emailErrors"
-            label="Email"
+            :label="$t('auth.email')"
             required
             outlined
             @input="$v.email.$touch()"
@@ -32,7 +32,7 @@
             v-model="password"
             :error-messages="passwordErrors"
             type="password"
-            label="Password"
+            :label="$t('auth.password')"
             required
             outlined
             @input="$v.password.$touch()"
@@ -55,14 +55,14 @@
                 :disabled="$v.$invalid"
                 class="ml-2"
               >
-                Sign Up
+                {{ $t('auth.sign-up') }}
               </v-btn>
             </v-col>
           </v-row>
         </v-form>
         <v-row justify="end">
           <v-col class="text-right">
-            <a @click="signIn">Already registered? Sign In </a>
+            <a @click="signIn">{{ $t('auth.already-registered') }}</a>
           </v-col>
         </v-row>
       </v-col>
@@ -84,7 +84,7 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    userName: { required, maxLength: maxLength(50) },
+    username: { required, maxLength: maxLength(50) },
     email: { required, email },
     password: {
       required,
@@ -95,7 +95,7 @@ export default {
   },
 
   data: () => ({
-    userName: '',
+    username: '',
     email: '',
     password: '',
     scoreValue: 0
@@ -123,36 +123,39 @@ export default {
           return 'error'
       }
     },
-    userNameErrors() {
+
+    usernameErrors() {
       const errors = []
-      if (!this.$v.userName.$dirty) return errors
-      if (!this.$v.userName.maxLength) {
-        errors.push('User name must be at most 50 characters long')
+      if (!this.$v.username.$dirty) return errors
+      if (!this.$v.username.maxLength) {
+        errors.push(this.$t('auth.errors.username-length'))
       }
-      if (!this.$v.userName.required) {
-        errors.push('User name is required.')
+      if (!this.$v.username.required) {
+        errors.push(this.$t('auth.errors.username-required'))
       }
       return errors
     },
+
     emailErrors() {
       const errors = []
       if (!this.$v.email.$dirty) return errors
       if (!this.$v.email.email) {
-        errors.push('Must be valid e-mail')
+        errors.push(this.$t('auth.errors.email-valid'))
       }
       if (!this.$v.email.required) {
-        errors.push('E-mail is required')
+        errors.push(this.$t('auth.errors.email-required'))
       }
       return errors
     },
+
     passwordErrors() {
       const errors = []
       if (!this.$v.password.$dirty) return errors
       if (!this.$v.password.required) {
-        errors.push('Password is required')
+        errors.push(this.$t('auth.errors.password-required'))
       }
       if (!this.$v.password.score) {
-        errors.push('Password is not strong enough')
+        errors.push(this.$t('auth.errors.password-strength'))
       }
       return errors
     }
@@ -162,15 +165,25 @@ export default {
     signIn() {
       this.$emit('sign-in')
     },
+
     testPassword: throttle(function() {
       let results = zxcvbn(this.password)
       this.scoreValue = results.score
     }, 100),
-    submit() {
+
+    async submit() {
       this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.isDisabled = false
+      if (this.$v.$invalid) {
+        return
       }
+
+      await this.$store.dispatch('authSignUp', {
+        email: this.email,
+        username: this.username,
+        password: this.password
+      })
+
+      this.$emit('verify-email')
     }
   }
 }
