@@ -1,0 +1,24 @@
+{
+  "general": {
+    "ok": "Ok"
+  },
+  "auth": {
+    "sign-up": "Sign up",
+    "sign-in": "Sign in",
+    "username": "Username",
+    "email": "E-mail",
+    "password": "Password",
+    "already-registered": "Already registered? @:auth.sign-in",
+    "forgot-password": "Forgot password?",
+    "verify-email": "E-mail verification",
+    "check-email": "You must have received a validation e-mail.<br> Please check your e-mail address.",
+    "errors": {
+      "username-length": "User name must be at most 50 characters long",
+      "username-required": "User name is required",
+      "email-valid": "Must be valid e-mail",
+      "email-required": "E-mail is required",
+      "password-required": "Password is required",
+      "password-strength": "Password is not strong enough"
+    }
+  }
+}

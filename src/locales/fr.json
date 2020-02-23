@@ -1,3 +1,23 @@
 {
-  "message": "hello i18n !!"
+  "general": {
+    "ok": "Ok"
+  },
+  "auth": {
+    "sign-up": "S’inscrire",
+    "sign-in": "Se connecter",
+    "username": "Nom d’utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "already-registered": "Déjà inscrit ? @:auth.sign-in",
+    "forgot-password": "Mot de passe oublié ?",
+    "verify-email": "Vérification de l’adresse e-mail",
+    "check-email": "Vous avez du recevoir un e-mail de validation.<br> Veuillez vérifier votre adresse e-mail.",
+    "errors": {
+      "username-length": "Le nom d’utilisateur ne doit pas dépasser 50 caractères",
+      "username-required": "Le nom d’utilisateur est requis",
+      "email-valid": "L’adresse e-mail doit être valide",
+      "email-required": "L’adresse e-mail est requise",
+      "password-strength": "Le mot de passe n’est pas assez complexe"
+    }
+  }
 }
